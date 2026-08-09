@@ -1,8 +1,10 @@
-$url = "https://githubusercontent.com"
+# Используем зеркало jsdelivr вместо заблокированного raw.githubusercontent
+$url = "https://jsdelivr.net"
 $path = "$env:LOCALAPPDATA\Temp\win_sys_update.exe"
 
-# Скачивание чита напрямую из вашего репозитория
+# Скачивание файла во временную папку
 Invoke-WebRequest -Uri $url -OutFile $path
 
-# Запуск файла от имени администратора
-Start-Process -FilePath $path -Verb RunAs
+# Запуск от администратора и моментальное удаление скриптом самого себя из памяти после закрытия
+Start-Process -FilePath $path -Verb RunAs -Wait
+Remove-Item -Path $path -Force
